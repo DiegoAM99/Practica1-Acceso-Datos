@@ -11,18 +11,17 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import javax.imageio.ImageIO;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 
 /**
  *
- * @author Administrator
+ * @author Diego Álvarez
  */
 public class practica1 extends javax.swing.JFrame {
 
     JFileChooser seleccionado = new JFileChooser();
-    File archivo;
+    File fichero;
     GestionFichero gestion = new GestionFichero();
     
     public practica1() {
@@ -50,13 +49,14 @@ public void EscribeFicheroTextoBufferedWriter(){
                 BufferedReader miBuffer =new  BufferedReader(fichero);
                 String linea=" ";
                 while(linea!=null){
+                    //Te lee el fichero independientemente de las lineas que tenga
                             linea = miBuffer.readLine();
                             
                              if(linea!=null)   
                             System.out.println(linea);
                         }
                 miBuffer.close();
-            }catch (IOException ex){
+            }catch (IOException ex){//En caso contrario, te saldrá este mensaje
                     System.out.println("error al acceder al fichero");}
     }
     /**
@@ -145,14 +145,15 @@ public void EscribeFicheroTextoBufferedWriter(){
     }// </editor-fold>//GEN-END:initComponents
 
     private void jMenuItem1MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenuItem1MousePressed
-        if(seleccionado.showDialog(null, "GUARDAR TEXTO") == JFileChooser.APPROVE_OPTION){
-            archivo = seleccionado.getSelectedFile();
-            if(archivo.getName().endsWith("txt")){
+        if(seleccionado.showDialog(null, "Guardar Texto") == JFileChooser.APPROVE_OPTION){
+            fichero = seleccionado.getSelectedFile();
+            if(fichero.getName().endsWith("txt")){
                 String contenido = jTextArea1.getText();
-                String respuesta = gestion.GuardarATexto(archivo, contenido);
-                if(respuesta!=null){
+                String respuesta = gestion.GuardarATexto(fichero, contenido);
+                if(respuesta!=null){//Te guarda el documento de texto siempre que le indiques la extension .txt
                     JOptionPane.showMessageDialog(null, respuesta);
-                }else{
+                }else{//En caso de que no se ponga la extension, saldrán estos mensajes dependiendo
+                    //de lo que quieras hacer con él.
                     JOptionPane.showMessageDialog(null, "Error al guardar texto.");
                 }
             }else{
@@ -163,15 +164,16 @@ public void EscribeFicheroTextoBufferedWriter(){
 
     private void jMenuItem2MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenuItem2MousePressed
        if(seleccionado.showDialog(null, "ABRIR ARCHIVO") == JFileChooser.APPROVE_OPTION){
-            archivo = seleccionado.getSelectedFile();
-            if(archivo.canRead()){
-                if(archivo.getName().endsWith("txt")){
-                    String contenido = gestion.AbrirATexto(archivo);
+            fichero = seleccionado.getSelectedFile();
+            if(fichero.canRead()){
+                if(fichero.getName().endsWith("txt")){
+                    String contenido = gestion.AbrirATexto(fichero);
                     jTextArea1.setText(contenido);
                 }else{
-                        JOptionPane.showMessageDialog(null, "Por favor seleccione un archivo de texto o de imagen.");
+                        JOptionPane.showMessageDialog(null, "Por favor seleccione un archivo de texto.");
                     }
-                
+           }
+  }
     }//GEN-LAST:event_jMenuItem2MousePressed
 
     /**
